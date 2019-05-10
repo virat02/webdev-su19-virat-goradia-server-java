@@ -2,8 +2,8 @@ function User(id, username, password, firstName, lastName, role, dob){
     this.id = id;
     this.username = username;
     this.password = password;
-    this.firstName = fname;
-    this.lastName = lname;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.role = role;
     this.dob = dob;
 
@@ -68,7 +68,7 @@ function User(id, username, password, firstName, lastName, role, dob){
         return this.role
     }
 
-    function setDob(doc){
+    function setDob(dob){
         this.dob=dob
     }
 
