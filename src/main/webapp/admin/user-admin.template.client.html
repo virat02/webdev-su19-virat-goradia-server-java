@@ -7,13 +7,10 @@
             "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" href=
             "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link href="user-admin.style.client.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="../services/user.service.client.js"></script>
-    <script src="user-admin.component.client.js"></script>
 </head>
 <body>
-    <table class="table">
+    <table id = "adminPanel" class="table">
         <thead>
         <tr>
             <th>Username</th>
@@ -21,12 +18,13 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Role</th>
+            <th>Dob</th>
             <th>&nbsp;</th>
         </tr>
         <tr class="wbdv-form">
             <td><input id="usernameFld" class="form-control"
                        placeholder="Username" /></td>
-            <td><input id="passwordFld" class="form-control"
+            <td><input id="passwordFld" type="password" class="form-control"
                        placeholder="Password" /></td>
             <td><input id="firstNameFld" class="form-control"
                        placeholder="First Name" /></td>
@@ -39,29 +37,38 @@
                     <option value="ADMIN">Admin</option>
                 </select>
             </td>
+            <td><input id="dobFld" class="form-control"
+                       placeholder="Date Of Birth" /></td>
             <td>
                 <span class="float-right" style="white-space: nowrap">
                     <i class="fa-2x fa fa-search wbdv-search"></i>
-                    <i class="fa-2x fa fa-plus wbdv-create"></i>
-                    <i class="fa-2x fa fa-check wbdv-update"></i>
+                    <i id="createBtn" class="fa-2x fa fa-plus wbdv-create"></i>
+                    <i id="updateBtn" class="fa-2x fa fa-check wbdv-update"></i>
                 </span>
             </td>
         </tr>
         </thead>
         <tbody class="wbdv-tbody">
-            <tr class="wbdv-template wbdv-user wbdv-hidden">
-                <td class="wbdv-username">ada</td>
-                <td>&nbsp;</td>
-                <td class="wbdv-first-name">Ada</td>
-                <td class="wbdv-last-name">Lovelace</td>
-                <td class="wbdv-role">FACULTY</td>
+            <tr class="wbdv-userRowTemplate wbdv-user wbdv-hidden d-none">
+                <td class="wbdv-usernameCol">ada</td>
+                <td class=""wbdv=-passwordCol">*****</td>
+                <td class="wbdv-firstNameCol">Ada</td>
+                <td class="wbdv-lastNameCol">Lovelace</td>
+                <td class="wbdv-roleCol">FACULTY</td>
+                <td class="wbdv-dobCol">Dob</td>
                 <td class="wbdv-actions">
                     <span class="float-right">
-                      <i id="wbdv-remove" class="fa-2x fa fa-times wbdv-remove"></i>
-                      <i id="wbdv-edit" class="fa-2x fa fa-pencil wbdv-edit"></i>
+                      <i id="deleteBtn" class="fa-2x fa fa-times wbdv-remove"></i>
+                      <i id="editBtn" class="fa-2x fa fa-pencil wbdv-edit"></i>
                     </span>
                 </td>
             </tr>
         </tbody>
     </table>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+    <script src="user-admin.component.client.js"></script>
 </body>
