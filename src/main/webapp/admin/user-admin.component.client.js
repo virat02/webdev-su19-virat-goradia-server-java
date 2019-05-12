@@ -11,10 +11,10 @@
     const tbody = $('tbody');
 
     //Buttons
-    const $createBtn = $('#createBtn');
-    const $deleteBtn = $('#deleteBtn');
-    const $updateBtn = $('#updateBtn');
-    const $editBtn = $('#editBtn');
+    const $createBtn = $('.wbdv-create');
+    const $deleteBtn = $('.wbdv-remove');
+    const $updateBtn = $('.wbdv-update');
+    const $editBtn = $('.wbdv-edit');
 
     //URL'S
     const findAllUsersUrl = 'http://localhost:8080/users';
@@ -37,7 +37,7 @@
 
     //Function to handle delete user event when clicked on cross icon
     function deleteUser(event) {
-        deleteBtn = $(event.currentTarget);
+        let deleteBtn = $(event.currentTarget);
         const id = deleteBtn.attr('id');
         console.log(id);
         const url = deleteUserUrl.replace('USER_ID', id);

@@ -13,7 +13,7 @@ import com.example.wbdvsu119serverjava.models.User;
 @RestController
 public class UserController {
     private User[] users = {
-            new User(1, "alice", "alice", "Alice", "Wonderland", "Fsculty", "01-01-1990"),
+            new User(1, "alice", "alice", "Alice", "Wonderland", "Faculty", "01-01-1990"),
             new User(2, "bob", "bob", "Bob", "The builder", "Student" , "01-05-1985"),
             new User(3, "charlier", "charlier", "Charlier", "Brown", "Admin", "06-10-1980")
     };
