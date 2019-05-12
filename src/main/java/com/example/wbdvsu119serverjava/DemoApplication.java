@@ -1,4 +1,4 @@
-package com.example.myapp;
+package com.example.wbdvsu119serverjava;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

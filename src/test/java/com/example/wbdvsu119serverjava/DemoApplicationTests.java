@@ -1,4 +1,4 @@
-package com.example.myapp;
+package com.example.wbdvsu119serverjava;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

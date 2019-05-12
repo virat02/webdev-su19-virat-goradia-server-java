@@ -5,6 +5,7 @@
     const $passwordFld = $('#passwordFld');
     const $firstNameFld = $('#firstNameFld');
     const $lastNameFld = $('#lastNameFld');
+    const $roleFld = $('#roleFld');
     const $dobFld = $('#dobFld');
     const userRowTemplate = $('.wbdv-userRowTemplate');
     const tbody = $('tbody');
@@ -59,6 +60,7 @@
         const passwordCol = row.find('.wbdv-passwordCol');
         const firstNameCol = row.find('.wbdv-firstNameCol');
         const lastNameCol = row.find('.wbdv-lastNameCol');
+        const roleCol = row.find('.wbdv-roleCol');
         const dobCol = row.find('.wbdv-dobCol');
 
         const deleteBtn = row.find('.wbdv-remove');
@@ -69,12 +71,14 @@
         passwordCol.html(user.password);
         firstNameCol.html(user.firstName);
         lastNameCol.html(user.lastName);
+        roleCol.html(user.role);
         dobCol.html(user.dob);
 
         $usernameFld.val("");
         $passwordFld.val("");
         $firstNameFld.val("");
         $lastNameFld.val("");
+        $roleFld.val("");
         $dobFld.val("");
 
         tbody.append(row)
@@ -88,15 +92,17 @@
         const password = $passwordFld.val();
         const firstName = $firstNameFld.val();
         const lastName = $lastNameFld.val();
+        const role = $roleFld.val();
         const dob = $dobFld.val();
 
-        console.log(username, password, firstName, lastName, dob);
+        console.log(username, password, firstName, lastName, role, dob);
 
         const user = {
             username: username,
             password: password,
             firstName: firstName,
             lastName: lastName,
+            role: role,
             dob: dob
         };
 
