@@ -1,111 +1,106 @@
 (function () {
+    var $usernameFld, $passwordFld;
+    var $firstNameFld, $lastNameFld;
+    var $roleFld, $dobFld;
+    var $removeBtn, $editBtn, $createBtn;
 
-    //Fields
-    const $usernameFld = $('#usernameFld');
-    const $passwordFld = $('#passwordFld');
-    const $firstNameFld = $('#firstNameFld');
-    const $lastNameFld = $('#lastNameFld');
-    const $roleFld = $('#roleFld');
-    const $dobFld = $('#dobFld');
-    const userRowTemplate = $('.wbdv-userRowTemplate');
-    const tbody = $('tbody');
+    var $userRowTemplate, $tbody;
+    var userService = new AdminUserServiceClient();
+    var userAdminHTML = this.baseURL+"/admin/user-admin.template.client.html";
 
-    //Buttons
-    const $createBtn = $('.wbdv-create');
-    const $deleteBtn = $('.wbdv-remove');
-    const $updateBtn = $('.wbdv-update');
-    const $editBtn = $('.wbdv-edit');
+    //Set the id
+    $i = 1;
 
-    //URL'S
-    const findAllUsersUrl = 'http://localhost:8080/users';
-    const deleteUserUrl = 'http://localhost:8080/delete/user/USER_ID';
+    $(main);
 
-    $.ajax(findAllUsersUrl, {
-        'success': handleUsers
-    });
+    function main() {
 
-    function handleUsers(users) {
-        for(i in users) {
-            appendUserToDom(users[i])
-        }
-    }
+        //Get all the fields
+        $usernameFld = $("#usernameFld");
+        $passwordFld = $("#passwordFld");
+        $firstNameFld = $("#firstNameFld");
+        $lastNameFld = $("#lastNameFld");
+        $roleFld = $("#roleFld");
+        $dobFld = $("#dobFld");
 
-    //$elem.append('<h1>Welcome to jQuery</h1>');
+        $userRowTemplate = $(".wbdv-userRowTemplate");
+        $tbody = $('tbody');
 
-    $createBtn.click(createUser);
-    $deleteBtn.click(deleteUser);
+        userService
+            .findAllUsers()
+            .then(renderUsers)
 
-    //Function to handle delete user event when clicked on cross icon
-    function deleteUser(event) {
+        //Get the respective buttons
+        $createBtn = $(".wbdv-create");
+        $removeBtn = $(".wbdv-remove");
 
-        let currentTarget = $(event.currentTarget);
-        const id = currentTarget.attr('id');
-        const url = deleteUserUrl.replace('USER_ID', id);
-        console.log(url);
+        //Executes the createUser function in userService when the create button is clicked
+        $createBtn.click(function () {
+            var user = createUser();
+            userService.createUser(user);
+            window.location.replace(userAdminHTML);
+        });
 
-        $.ajax(url, {
-            type: 'DELETE',
-            'success': handleUsers
+        //Executes the deleteUser function in userService when the delete button is clicked
+        $removeBtn.click(function () {
+            //Grab the userId to be deleted
+            var userId = $(this).closest('tr').children('td.wbdv-userId').text();
+            deleteUser(userId);
         })
-
     }
 
-    //Function to append all the existing users to the DOM
-    function appendUserToDom(user) {
-        const row = userRowTemplate.clone();
-
-        row.removeClass('d-none');
-
-        const usernameCol = row.find('.wbdv-usernameCol');
-        const passwordCol = row.find('.wbdv-passwordCol');
-        const firstNameCol = row.find('.wbdv-firstNameCol');
-        const lastNameCol = row.find('.wbdv-lastNameCol');
-        const roleCol = row.find('.wbdv-roleCol');
-        const dobCol = row.find('.wbdv-dobCol');
-
-        const deleteBtn = row.find('.wbdv-remove');
-        deleteBtn.click(deleteUser);
-        deleteBtn.attr('id', user.id);
-
-        usernameCol.html(user.username);
-        passwordCol.html(user.password);
-        firstNameCol.html(user.firstName);
-        lastNameCol.html(user.lastName);
-        roleCol.html(user.role);
-        dobCol.html(user.dob);
-
-        $usernameFld.val("");
-        $passwordFld.val("");
-        $firstNameFld.val("");
-        $lastNameFld.val("");
-        $roleFld.val("");
-        $dobFld.val("");
-
-        tbody.append(row)
-    }
-
-    //Function to handle create user event when clicked on plus icon
+    //Function to create a user
     function createUser() {
-        console.log('createUser');
+        //Get all the fields
+        $usernameFld = $("#usernameFld").val();
+        $passwordFld = $("#passwordFld").val();
+        $firstNameFld = $("#firstNameFld").val();
+        $lastNameFld = $("#lastNameFld").val();
+        $roleFld = $("#roleFld").val();
+        $dobFld = $("#dobFld").val();
 
-        const username = $usernameFld.val();
-        const password = $passwordFld.val();
-        const firstName = $firstNameFld.val();
-        const lastName = $lastNameFld.val();
-        const role = $roleFld.val();
-        const dob = $dobFld.val();
-
-        console.log(username, password, firstName, lastName, role, dob);
-
-        const user = {
-            username: username,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            role: role,
-            dob: dob
+        //Return back the user json object
+        return {
+            "id" : $i++,
+            "username" : $usernameFld,
+            "firstName": $firstNameFld,
+            "lastName" : $lastNameFld,
+            "role" : $roleFld,
+            "dob" : $dobFld,
         };
+    }
 
-        appendUserToDom(user)
+    // function findAllUsers() { … }
+    // function findUserById() { … }
+
+    //Function to delete the user based on the user id
+    function deleteUser(userId) {
+        var users = userService.deleteUser(userId);
+        renderUsers(users)
+        //window.location.replace(userAdminHTML);
+    }
+
+    // function selectUser() { … }
+    // function updateUser() { … }
+    // function renderUser(user) { … }
+
+    //Function to render all the existing users
+    function renderUsers(users) {
+
+        //Empty the content of the table
+        $tbody.empty();
+
+        for(var u = 0; u < users.length; u++){
+            var clone = $userRowTemplate.clone();
+            clone.removeClass('d-none');
+            clone.find(".wbdv-userId").html(users[u].id);
+            clone.find(".wbdv-usernameCol").html(users[u].username);
+            clone.find(".wbdv-firstNameCol").html(users[u].firstName);
+            clone.find(".wbdv-lastNameCol").html(users[u].lastName);
+            clone.find(".wbdv-roleCol").html(users[u].role);
+            clone.find(".wbdv-dobCol").html(users[u].dob);
+
+            $tbody.append(clone);
+        }
     }
 })();

@@ -1,6 +1,7 @@
 package com.example.wbdvsu119serverjava.controllers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,13 @@ public class UserController {
         return users;
     }
 
-    @GetMapping("/users/{userId}")
+    @PostMapping("/users")
+    public List<User> createUser(User user) {
+        users.add(user);
+        return users;
+    }
+
+    @GetMapping("/user/{userId}")
     public User findUserById(@PathVariable("userId") Integer id) {
         for(User user: users) {
             if(id == user.getId().intValue())
@@ -34,23 +41,19 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/user/{userId}")
-    public void deleteUser(@PathVariable("userId") Integer id) {
-        User userToDelete = findUserById(id);
-        for(User u : users) {
-            if(u.getId().intValue() == userToDelete.getId())
-                users.remove(u);
-        }
-    }
-
-//    @DeleteMapping("/users/{userId}")
-//    public User[] deleteUser(@PathVariable("userId") int userId) {
-//        User u = null;
-//        for(User user:userArrayList) {
-//            if(user.getId() == userId) {
-//                u = user;
-//            }
+    public List<User> deleteUser(@PathVariable("userId") Integer id) {
+//        for(User user: users) {
+//            if(id == user.getId().intValue())
+//                users.remove(user);
 //        }
-//        userArrayList.remove(u);
-//        return users;
-//    }
+
+        for(Iterator<User> u = users.iterator(); u.hasNext();) {
+            User user = u.next();
+
+            if(id == user.getId().intValue())
+                u.remove();
+        }
+
+        return users;
+    }
 }
