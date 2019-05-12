@@ -18,7 +18,7 @@
 
     //URL'S
     const findAllUsersUrl = 'http://localhost:8080/users';
-    const deleteUserUrl = 'http://localhost:8080/users/USER_ID';
+    const deleteUserUrl = 'http://localhost:8080/delete/user/USER_ID';
 
     $.ajax(findAllUsersUrl, {
         'success': handleUsers
@@ -37,20 +37,20 @@
 
     //Function to handle delete user event when clicked on cross icon
     function deleteUser(event) {
-        let deleteBtn = $(event.currentTarget);
-        const id = deleteBtn.attr('id');
-        console.log(id);
+
+        let currentTarget = $(event.currentTarget);
+        const id = currentTarget.attr('id');
         const url = deleteUserUrl.replace('USER_ID', id);
         console.log(url);
+
         $.ajax(url, {
-            'type': 'DELETE',
+            type: 'DELETE',
             'success': handleUsers
         })
-        // const tr = currentTarget.parent().parent()
-        // console.log(tr)
-        // tr.remove()
+
     }
 
+    //Function to append all the existing users to the DOM
     function appendUserToDom(user) {
         const row = userRowTemplate.clone();
 

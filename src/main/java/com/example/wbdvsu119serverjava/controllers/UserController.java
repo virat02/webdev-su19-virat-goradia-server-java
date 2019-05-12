@@ -1,39 +1,56 @@
 package com.example.wbdvsu119serverjava.controllers;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.wbdvsu119serverjava.models.User;
 
 @RestController
 public class UserController {
-    private User[] users = {
-            new User(1, "alice", "alice", "Alice", "Wonderland", "Faculty", "01-01-1990"),
-            new User(2, "bob", "bob", "Bob", "The builder", "Student" , "01-05-1985"),
-            new User(3, "charlier", "charlier", "Charlier", "Brown", "Admin", "06-10-1980")
-    };
 
-    private List<User> userArrayList = Arrays.asList(users);
+    List<User> users = new ArrayList<>();
+
+    User alice = new User(1, "alice", "alice", "Alice", "Wonderland", "Faculty", "01-01-1990");
+    User bob = new User(2, "bob", "bob", "Bob", "The builder", "Student" , "01-05-1985");
+    User charlier = new User(3, "charlier", "charlier", "Charlier", "Brown", "Admin", "06-10-1980");
 
     @GetMapping("/users")
-    public User[] findAllUsers() {
+    public List<User> findAllUsers() {
+        users.add(alice);
+        users.add(bob);
+        users.add(charlier);
         return users;
     }
 
-    @DeleteMapping("/users/{userId}")
-    public User[] deleteUser(@PathVariable("userId") int userId) {
-        User u = null;
-        for(User user:userArrayList) {
-            if(user.getId() == userId) {
-                u = user;
-            }
+    @GetMapping("/users/{userId}")
+    public User findUserById(@PathVariable("userId") Integer id) {
+        for(User user: users) {
+            if(id == user.getId().intValue())
+                return user;
         }
-        userArrayList.remove(u);
-        return users;
+        return null;
     }
+
+    @DeleteMapping("/delete/user/{userId}")
+    public void deleteUser(@PathVariable("userId") Integer id) {
+        User userToDelete = findUserById(id);
+        for(User u : users) {
+            if(u.getId().intValue() == userToDelete.getId())
+                users.remove(u);
+        }
+    }
+
+//    @DeleteMapping("/users/{userId}")
+//    public User[] deleteUser(@PathVariable("userId") int userId) {
+//        User u = null;
+//        for(User user:userArrayList) {
+//            if(user.getId() == userId) {
+//                u = user;
+//            }
+//        }
+//        userArrayList.remove(u);
+//        return users;
+//    }
 }
