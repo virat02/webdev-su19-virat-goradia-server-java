@@ -9,7 +9,8 @@ function AdminUserServiceClient() {
 
     //Function to create a user
     function createUser(user, callback) {
-        return fetch(baseURL+"/users", {
+        console.log(self.baseURL);
+        return fetch(self.baseURL+"/users", {
             method: 'post',
             body: JSON.stringify(user),
             headers: {
@@ -25,14 +26,16 @@ function AdminUserServiceClient() {
     //Function to find all the existing users
     function findAllUsers(callback) {
         return fetch(self.baseURL+"/users")
-            .then(function (response) {
-                return response.json();
-            })
+            .then(response =>
+                response.json().then(json => {
+                    return json;
+                })
+            );
     }
 
     //Function to find a user based on the input userId
     function findUserById(userId, callback) {
-        return fetch(this.baseURI+"/user/"+userId)
+        return fetch(self.baseURL+"/user/"+userId)
             .then(function (response) {
                 return response.json();
             })
@@ -42,7 +45,8 @@ function AdminUserServiceClient() {
 
     //Function to delete a user based on the userId
     function deleteUser(userId, callback) {
-        return fetch(this.baseURI+"/delete/user/"+userId, {
+        console.log(self.baseURL);
+        return fetch(self.baseURL+"/delete/user/"+userId, {
             method : 'delete'
         }).then(response =>
             response.json().then(json => {

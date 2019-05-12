@@ -1,6 +1,7 @@
 package com.example.wbdvsu119serverjava.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,22 +12,20 @@ import com.example.wbdvsu119serverjava.models.User;
 @RestController
 public class UserController {
 
-    List<User> users = new ArrayList<>();
+    private User alice = new User(1, "alice", "alice", "Alice", "Wonderland", "Faculty", "01-01-1990");
+    private User bob = new User(2, "bob", "bob", "Bob", "The builder", "Student" , "01-05-1985");
+    private User charlier = new User(3, "charlier", "charlier", "Charlier", "Brown", "Admin", "06-10-1980");
 
-    User alice = new User(1, "alice", "alice", "Alice", "Wonderland", "Faculty", "01-01-1990");
-    User bob = new User(2, "bob", "bob", "Bob", "The builder", "Student" , "01-05-1985");
-    User charlier = new User(3, "charlier", "charlier", "Charlier", "Brown", "Admin", "06-10-1980");
+    private List<User> users = new ArrayList<>(Arrays.asList(alice,bob,charlier));
 
     @GetMapping("/users")
     public List<User> findAllUsers() {
-        users.add(alice);
-        users.add(bob);
-        users.add(charlier);
         return users;
     }
 
-    @PostMapping("/users")
-    public List<User> createUser(User user) {
+    @PostMapping(path= "/users", consumes = "application/json",
+                 produces = "application/json")
+    public List<User> createUser(@RequestBody User user) {
         users.add(user);
         return users;
     }

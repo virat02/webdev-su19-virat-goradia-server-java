@@ -6,10 +6,9 @@
 
     var $userRowTemplate, $tbody;
     var userService = new AdminUserServiceClient();
-    var userAdminHTML = this.baseURL+"/admin/user-admin.template.client.html";
 
     //Set the id
-    $i = 1;
+    $i = $('#adminPanel tr').length + 1;
 
     $(main);
 
@@ -24,7 +23,7 @@
         $dobFld = $("#dobFld");
 
         $userRowTemplate = $(".wbdv-userRowTemplate");
-        $tbody = $('tbody');
+        $tbody = $(".wbdv-tbody");
 
         userService
             .findAllUsers()
@@ -32,21 +31,31 @@
 
         //Get the respective buttons
         $createBtn = $(".wbdv-create");
-        $removeBtn = $(".wbdv-remove");
+
 
         //Executes the createUser function in userService when the create button is clicked
         $createBtn.click(function () {
-            var user = createUser();
-            userService.createUser(user);
-            window.location.replace(userAdminHTML);
+            let user = createUser();
+            userService.createUser(user).then(renderUsers);
+            clearTextBoxes()
         });
 
         //Executes the deleteUser function in userService when the delete button is clicked
-        $removeBtn.click(function () {
+        $(document).on('click', '.wbdv-remove', function () {
             //Grab the userId to be deleted
-            var userId = $(this).closest('tr').children('td.wbdv-userId').text();
+            let userId = $(this).closest('tr').children('td.wbdv-userId').text();
             deleteUser(userId);
-        })
+        });
+    }
+
+    //Function to clear text boxes
+    function clearTextBoxes() {
+        $("#usernameFld").val("");
+        $("#passwordFld").val("");
+        $("#firstNameFld").val("");
+        $("#lastNameFld").val("");
+        $("#roleFld").val("");
+        $("#dobFld").val("");
     }
 
     //Function to create a user
@@ -60,7 +69,7 @@
         $dobFld = $("#dobFld").val();
 
         //Return back the user json object
-        return {
+        let user =  {
             "id" : $i++,
             "username" : $usernameFld,
             "firstName": $firstNameFld,
@@ -68,6 +77,10 @@
             "role" : $roleFld,
             "dob" : $dobFld,
         };
+
+        clearTextBoxes();
+
+        return user;
     }
 
     // function findAllUsers() { … }
@@ -75,9 +88,7 @@
 
     //Function to delete the user based on the user id
     function deleteUser(userId) {
-        var users = userService.deleteUser(userId);
-        renderUsers(users)
-        //window.location.replace(userAdminHTML);
+        userService.deleteUser(userId).then(renderUsers)
     }
 
     // function selectUser() { … }
