@@ -3,13 +3,12 @@ function AdminUserServiceClient() {
     this.findAllUsers = findAllUsers;
     this.findUserById = findUserById;
     this.deleteUser = deleteUser;
-    //this.updateUser = updateUser;
+    this.updateUser = updateUser;
     this.baseURL = 'http://localhost:8080';
     var self = this;
 
     //Function to create a user
     function createUser(user, callback) {
-        console.log(self.baseURL);
         return fetch(self.baseURL+"/users", {
             method: 'post',
             body: JSON.stringify(user),
@@ -41,11 +40,23 @@ function AdminUserServiceClient() {
             })
     }
 
-    //function updateUser(userId, user, callback) { … }
+    //Function to update a user
+    function updateUser(userId, user, callback) {
+        return fetch(self.baseURL+"/users", {
+            method: 'put',
+            body: JSON.stringify(user),
+            headers: {
+                'content-type' : 'application/json'
+            }
+        }).then(response =>
+            response.json().then(json => {
+                return json;
+            })
+        );
+    }
 
     //Function to delete a user based on the userId
     function deleteUser(userId, callback) {
-        console.log(self.baseURL);
         return fetch(self.baseURL+"/delete/user/"+userId, {
             method : 'delete'
         }).then(response =>

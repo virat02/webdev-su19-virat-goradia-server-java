@@ -39,12 +39,38 @@ public class UserController {
         return null;
     }
 
+    @PutMapping(path= "/users", consumes = "application/json",
+            produces = "application/json")
+    public List<User> updateUser(@RequestBody User user) {
+
+//        User u = findUserById(id);
+//
+//        u.setUsername(user.getUsername());
+//        u.setPassword(user.getPassword());
+//        u.setFirstName(user.getFirstName());
+//        u.setRole(user.getRole());
+//        u.setDob(user.getDob());
+//
+//        return u;
+        for(User u: users) {
+            if (u.getId().intValue() == user.getId().intValue()) {
+
+                u.setUsername(user.getUsername());
+                u.setPassword(user.getPassword());
+                u.setFirstName(user.getFirstName());
+                u.setRole(user.getRole());
+                u.setDob(user.getDob());
+
+                break;
+            }
+        }
+
+        return users;
+
+    }
+
     @DeleteMapping("/delete/user/{userId}")
     public List<User> deleteUser(@PathVariable("userId") Integer id) {
-//        for(User user: users) {
-//            if(id == user.getId().intValue())
-//                users.remove(user);
-//        }
 
         for(Iterator<User> u = users.iterator(); u.hasNext();) {
             User user = u.next();
