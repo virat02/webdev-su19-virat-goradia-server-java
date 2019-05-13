@@ -42,7 +42,7 @@ public class UserController {
     @PutMapping(path= "/users", consumes = "application/json",
             produces = "application/json")
     public List<User> updateUser(@RequestBody User user) {
-        
+
         for(User u: users) {
             if (u.getId().intValue() == user.getId().intValue()) {
 
