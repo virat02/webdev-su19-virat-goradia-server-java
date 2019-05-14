@@ -65,8 +65,11 @@
         //Executes the updateUser function in userService when the save button is clicked
         $(document).on('click', '.wbdv-update', function () {
             var userId = $("#userIdFld").val();
-            var user = updateUser(userId);
-            userService.updateUser(userId, user).then(renderUsers);
+            console.log(userId);
+            if (userId) {
+                var user = updateUser(userId);
+                userService.updateUser(userId, user).then(renderUsers);
+            }
 
             clearTextBoxes()
         })
