@@ -2,7 +2,7 @@
     var $usernameFld, $passwordFld, $userIdFld;
     var $firstNameFld, $lastNameFld;
     var $roleFld, $dobFld;
-    var $removeBtn, $editBtn, $createBtn;
+    var $createBtn;
 
     var $userRowTemplate, $tbody;
     var userService = new AdminUserServiceClient();
@@ -104,9 +104,6 @@
 
         return user;
     }
-
-    // function findAllUsers() { … }
-    // function findUserById() { … }
 
     //Function to delete the user based on the user id
     function deleteUser(userId) {
