@@ -66,7 +66,7 @@
         $(document).on('click', '.wbdv-update', function () {
             var userId = $("#userIdFld").val();
             var user = updateUser(userId);
-            userService.updateUser(userId, user).then(renderUsers)
+            userService.updateUser(userId, user).then(renderUsers);
 
             clearTextBoxes()
         })
@@ -74,6 +74,7 @@
 
     //Function to clear text boxes
     function clearTextBoxes() {
+        $("#userIdFld").val("");
         $("#usernameFld").val("");
         $("#passwordFld").val("");
         $("#firstNameFld").val("");
