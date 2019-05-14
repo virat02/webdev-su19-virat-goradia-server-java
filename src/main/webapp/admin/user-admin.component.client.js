@@ -67,6 +67,8 @@
             var userId = $("#userIdFld").val();
             var user = updateUser(userId);
             userService.updateUser(userId, user).then(renderUsers)
+
+            clearTextBoxes()
         })
     }
 
